@@ -5,6 +5,10 @@ import Menu from "../pages/Menu";
 import Order from "../pages/Order";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import Dashboard from "../layout/Dashboard";
+import AdminHome from "../userPages/AdminHome";
+import UserCart from "../userPages/UserCart";
+
 
 
 
@@ -17,7 +21,13 @@ const router = createBrowserRouter([
 
     ]},
     {path:'/login' , element : <Login></Login>},
-    {path:'/register' , element : <Register></Register>}
+    {path:'/register' , element : <Register></Register>},
+    {path:'/' , element : <Dashboard></Dashboard>, children: [
+        {path:'/dashboard' , element : <AdminHome></AdminHome>},
+        {path:'/items' , element :<UserCart></UserCart> },
+
+    ]}
+
 ])
 
 

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { AuthContext } from '../Providers/AuthProvider';
-import useCart from '../hooks/userCart';
+import useCart from '../hooks/useCart';
 
 const Navbar = () => {
     const { user, logOutUser } = useContext(AuthContext)
@@ -46,7 +46,7 @@ const Navbar = () => {
                 <div className="badge badge-secondary">+{data?.length || 0}</div>
             </button>
             <div className="navbar-end">
-                <a className="btn">Get started</a>
+               <Link className='btn' to='/dashboard'>Dashboard</Link>
             </div>
         </div>
     );
