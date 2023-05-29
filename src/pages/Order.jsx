@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import orderBg from '../assets/shop/banner2.jpg'
 import { Helmet } from 'react-helmet-async';
 import Navbar from '../components/Navbar';
@@ -7,8 +7,13 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import useMenu from '../hooks/useMenu';
 import { useParams } from 'react-router-dom';
+import { AuthContext } from '../Providers/AuthProvider';
+import { toast } from 'react-hot-toast';
+import useCart from '../hooks/userCart';
 
 const Order = () => {
+    const {user} = useContext(AuthContext)
+    const [,refetch]  = useCart()
     const category = ['salad','pizza','soup','dessert','drinks']
     const {catName} = useParams()
     const initialIndex = category.indexOf(catName)
@@ -23,9 +28,40 @@ const Order = () => {
 
     }, [menu,current])
 
+    const handleAddToCart = d => {
+        if(user && user?.email){
+            const menuItem = {
+                email : user?.email ,
+                itemData : d,
+                
+            }
+            fetch('http://localhost:3000/carts', {
+                method : 'POST', 
+                headers : {
+                    'content-type':'application/json'
+                }, 
+                body : JSON.stringify(menuItem)
+            })
+            .then(res => res.json())
+            .then(d => {
+                
+                if(d.insertedId){
+
+                    toast.success('Item added on cart ')
+                    refetch()
+
+                }
+                
+            })
+
+        }else{
+            console.log('please login first ')
+        }
+    }
 
 
 
+console.log(data)
     const tabData = <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
         {data?.map(item => <div className='bg-gray-100' key={item._id}>
             <div className='relative'>
@@ -37,7 +73,7 @@ const Order = () => {
                 <p>{item.recipe}</p>
             </div>
             <div className='flex justify-center pb-5'>
-                <button className='btn bg-black text-[#BB8506] hover:bg-gray-200 border-b-4 border-[#BB8506]'>Add to cart</button>
+                <button onClick={() => handleAddToCart(item)} className='btn bg-black text-[#BB8506] hover:bg-gray-200 border-b-4 border-[#BB8506]'>Add to cart</button>
             </div>
 
 
@@ -51,7 +87,7 @@ const Order = () => {
             <Helmet>
                 <title>Order || Bistro boos</title>
             </Helmet>
-            <div className='w-full absolute top-0 z-10 bg-[#0000004d] '>
+            <div className='w-full fixed top-0 z-10 bg-[#0000004d] '>
                 <div className='container mx-auto'>
                     <Navbar></Navbar>
                 </div>

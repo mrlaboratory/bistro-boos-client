@@ -14,7 +14,7 @@ const Home = () => {
             <Helmet>
                 <title>Home || Bistro boos</title>
             </Helmet>
-            <div className='w-full absolute top-0 z-10 bg-[#0000004d] '>
+            <div className='w-full fixed top-0 z-10 bg-[#0000004d] '>
                 <div className='container mx-auto'>
                     <Navbar></Navbar>
                 </div>
