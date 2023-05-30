@@ -27,6 +27,8 @@ const Dashboard = () => {
                     </div>
                         <li> <NavLink className='' to='/dashboard'>User home</NavLink> </li>
                         <li> <NavLink className='' to='/items'>Manage Items</NavLink> </li>
+                        <li> <NavLink className='' to='/userlist'>Manage Users</NavLink> </li>
+                        <li> <NavLink className='' to='/'>Home</NavLink> </li>
                         
                     </div>
 

@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../Providers/AuthProvider';
+import { toast } from 'react-hot-toast';
 
 const Register = () => {
+    const {createUser, user, path} = useContext(AuthContext)
+    const navigate = useNavigate()
     const {
         register,
         handleSubmit,
@@ -12,7 +16,33 @@ const Register = () => {
 
     const userRegister = d => {
         console.log(d)
+        createUser(d.email,d.password)
+        .then(d => {
+            const userInfo = {
+                name : d.user.displayName, 
+                email : d.user.email
+            }
+            fetch('http://localhost:3000/users', {
+                method: 'POST', 
+                headers: {
+                    'content-type':'application/json'
+                }, 
+                body: JSON.stringify(userInfo)
+            })
+            .then(res => res.json())
+            .then(da => console.log(da))
+            toast.success('account created successfully !!')
+            console.log(d)
+        })
+        .catch(e => console.log(e))
     }
+
+    useEffect(()=> {
+        if(user && user?.email){
+          navigate(path, {replace : true})
+        }
+      
+      },[user])
 
     return (
         <div className='container mx-auto flex justify-center items-center'>

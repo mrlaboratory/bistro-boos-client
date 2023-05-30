@@ -7,10 +7,37 @@ import { toast } from 'react-hot-toast';
 
 
 const Login = () => {
-  const { loginUser, path, user } = useContext(AuthContext)
+  const { loginUser, path, user, loginWithGoogle } = useContext(AuthContext)
   const captchaRef = useRef()
   const [dissable, setDissable] = useState(true)
   const navigate = useNavigate()
+
+  const handleLoginWithGoogle = () => {
+    loginWithGoogle()
+      .then(d => {
+
+        console.log(d)
+
+        const userInfo = {
+          name : d.user.displayName,
+          email : d.user.email
+        }
+
+        fetch('http://localhost:3000/users', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify(userInfo)
+        })
+          .then(res => res.json())
+          .then(d => {
+            console.log(d)
+          })
+
+      })
+      .catch(e => console.log(e))
+  }
 
   useEffect(() => {
     loadCaptchaEnginge(6);
@@ -44,12 +71,12 @@ const Login = () => {
     }
   }
 
-  useEffect(()=> {
-    if(user && user?.email){
-      navigate(path, {replace : true})
+  useEffect(() => {
+    if (user && user?.email) {
+      navigate(path, { replace: true })
     }
-  
-  },[user])
+
+  }, [user])
 
 
   return (
@@ -77,14 +104,15 @@ const Login = () => {
                 <label className="label">
                   <LoadCanvasTemplate />
                 </label>
-                <input  name='captcha' ref={captchaRef} type="text" placeholder="captcha" className="input input-bordered" />
+                <input name='captcha' ref={captchaRef} type="text" placeholder="captcha" className="input input-bordered" />
                 <button type='button' onClick={handleeValidate} className='btn w-full btn-sm'>Validate </button>
               </div>
               <Link to='/register'>Create a new account !</Link>
               <div className="form-control mt-6">
-                <button  className="btn btn-primary">Login</button>
+                <button className="btn btn-primary">Login</button>
               </div>
             </form>
+            <button onClick={handleLoginWithGoogle} className='btn'>Login with google </button>
           </div>
         </div>
       </div>
