@@ -3,8 +3,10 @@ import { Link, NavLink } from 'react-router-dom';
 import { AuthContext } from '../Providers/AuthProvider';
 import useCart from '../hooks/useCart';
 
+
 const Navbar = () => {
     const { user, logOutUser } = useContext(AuthContext)
+
     const [data] = useCart()
     const navItem = <>
         <li> <NavLink to='/'>Home</NavLink> </li>
@@ -41,10 +43,12 @@ const Navbar = () => {
                     {navItem}
                 </ul>
             </div>
-            <button className="btn gap-2">
+           <Link to='/items'>
+           <button className="btn gap-2">
                 item
                 <div className="badge badge-secondary">+{data?.length || 0}</div>
             </button>
+            </Link>
             <div className="navbar-end">
                <Link className='btn' to='/dashboard'>Dashboard</Link>
             </div>

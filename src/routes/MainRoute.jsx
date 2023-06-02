@@ -10,6 +10,7 @@ import UserCart from "../userPages/UserCart";
 import UserHome from "../userPages/UserHome";
 import UserManage from "../adminPages/UserManage";
 import AdminRoute from "./AdminRoute";
+import AddItem from "../adminPages/AddItem";
 
 
 
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
         {path:'/dashboard' , element : <UserHome></UserHome> },
         {path:'/items' , element :<UserCart></UserCart> },
         {path:'/userlist' , element :<AdminRoute><UserManage></UserManage></AdminRoute> },
+        {path:'/additem' , element :<AdminRoute><AddItem></AddItem> </AdminRoute> },
 
     ]}
 

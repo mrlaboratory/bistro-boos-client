@@ -16,11 +16,7 @@ const UserManage = () => {
         const role = {
             role: r
         }
-        const res = await axiosSecure.post(`/user/admin/${email}`, role, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+        const res = await axiosSecure.post(`/user/admin/${email}`, role);
         refetch()
     }
 
